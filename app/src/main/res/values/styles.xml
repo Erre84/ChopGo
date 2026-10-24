@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ChopTheme" parent="android:style/Theme.Material.NoActionBar">
+        <item name="android:fontFamily">@font/chop_body</item>
+    </style>
+</resources>

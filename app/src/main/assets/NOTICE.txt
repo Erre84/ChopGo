@@ -1,0 +1,42 @@
+EXITO CHOP includes an adapted copy of Sonic.java from AndroidX Media 1.3.1.
+
+Upstream:
+https://github.com/androidx/media/blob/1.3.1/libraries/common/src/main/java/androidx/media3/common/audio/Sonic.java
+
+Copyright (C) 2017 The Android Open Source Project
+Copyright (C) 2010 Bill Cox, Sonic Library
+
+License: Apache License, Version 2.0. See Sonic-LICENSE.txt.
+
+Changes: Java package changed to com.exito.chop; AndroidX Assertions import
+replaced with a local state check. DSP algorithm otherwise retained.
+
+Chroma Console is a product and name of Hologram Electronics. EXITO CHOP is
+not affiliated with Hologram Electronics or YouTube. MUTATE algorithms are
+original approximations; no Hologram source code or audio assets are included.
+
+The mural image was supplied by the user as the visual reference for this app.
+The factory demonstration and drum signals are synthesized by this project.
+
+Direct YouTube resolution uses NewPipe Extractor v0.26.5, GPL-3.0-or-later.
+The combined application source code is distributed under GPL-3.0-or-later.
+Full upstream source is included in third_party/newpipe; libraries remain
+unmodified. Dependencies: nanojson (Apache-2.0), jsoup (MIT), jsr305
+(Apache-2.0), protobuf-javalite (BSD), Rhino (MPL-2.0). Their notices and
+source archives accompany the project. The user-supplied mural is excluded
+from the code license.
+
+V03 dependencies:
+Signalsmith Stretch 1.3.2 and Signalsmith Linear: Signalsmith Audio, MIT.
+https://github.com/Signalsmith-Audio/signalsmith-stretch
+https://github.com/Signalsmith-Audio/linear
+Spotify Basic Pitch model icassp_2022/nmp.tflite: Apache-2.0.
+https://github.com/spotify/basic-pitch
+LiteRT Android 1.4.2 runtime: Google, Apache-2.0.
+https://github.com/google-ai-edge/LiteRT
+S900 sample/disk structures and packing researched from akaiutil 3.6.2, Klaus Michael Indlekofer, GPL-2.0-or-later. The corresponding Java port is GPL-3.0-or-later. Full reference source supplied in third_party/akaiutil. Two Linux open() calls in that reference utility use three arguments for modern libc.
+https://github.com/Midi-In/akaiutil
+
+Signalsmith is the active time/pitch engine. Legacy Sonic is retained in source, unused by playback/stretch. Model inference and note detection run locally. Stable Audio generation is an optional, separately authorized external API call using the user's own Stability AI account. No service credentials are distributed.
+
+Chroma Console, Analog Heat, Akai, E-mu, Roland, ISLA, Cubase and Serato are names of their respective owners. This app is not affiliated with them. Creative effects, sampler colours and synthesized instruments are original approximations; no manufacturer DSP code, measured circuit models or proprietary sound libraries are supplied.

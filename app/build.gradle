@@ -1,0 +1,23 @@
+plugins { id 'com.android.application' }
+android {
+    namespace 'com.exito.chop'
+    compileSdk 35
+    defaultConfig { applicationId 'com.exito.chop'; minSdk 33; targetSdk 35; versionCode 19; versionName '0.4.6' }
+    compileOptions { sourceCompatibility JavaVersion.VERSION_1_8; targetCompatibility JavaVersion.VERSION_1_8 }
+    signingConfigs {
+        development {
+            storeFile file('../signing/development.p12')
+            storePassword 'android'
+            keyAlias 'exito-development'
+            keyPassword 'android'
+            storeType 'PKCS12'
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.development
+            minifyEnabled false
+        }
+    }
+}
+dependencies { implementation fileTree(dir: 'libs', include: ['*.jar']) }

@@ -1,0 +1,10 @@
+package com.exito.chop;
+import java.io.*;import java.nio.charset.StandardCharsets;import java.nio.file.*;
+final class EditJournal {
+ final File dir;int cursor,total;EditJournal(File d)throws IOException{dir=d;dir.mkdirs();File f=new File(dir,"cursor");if(f.exists())try(DataInputStream in=new DataInputStream(new FileInputStream(f))){cursor=in.readInt();total=in.readInt();}}
+ int undoCount(){return cursor;}int redoCount(){return total-cursor;}File step(int i){return new File(dir,String.format(java.util.Locale.US,"%09d.edit",i));}
+ static void string(DataOutputStream out,String s)throws IOException{byte[] b=s.getBytes(StandardCharsets.UTF_8);out.writeInt(b.length);out.write(b);}static String string(DataInputStream in)throws IOException{int n=in.readInt();if(n<0||n>128*1024*1024)throw new IOException("Historial dañado");byte[] b=new byte[n];in.readFully(b);return new String(b,StandardCharsets.UTF_8);}
+ synchronized void add(String before,String after,String name)throws IOException{for(int i=cursor;i<total;i++)step(i).delete();File tmp=new File(dir,"entry.tmp");try(DataOutputStream out=new DataOutputStream(new BufferedOutputStream(new FileOutputStream(tmp)))){string(out,before);string(out,after);string(out,name);}Files.move(tmp.toPath(),step(cursor).toPath(),StandardCopyOption.REPLACE_EXISTING);cursor++;total=cursor;save();}
+ synchronized String peek(boolean redo)throws IOException{int at=redo?cursor:cursor-1;if(at<0||at>=total)return null;try(DataInputStream in=new DataInputStream(new BufferedInputStream(new FileInputStream(step(at))))){String before=string(in),after=string(in);return redo?after:before;}}
+ synchronized void moved(boolean redo)throws IOException{cursor=Math.max(0,Math.min(total,cursor+(redo?1:-1)));save();}void save()throws IOException{File t=new File(dir,"cursor.tmp");try(DataOutputStream out=new DataOutputStream(new FileOutputStream(t))){out.writeInt(cursor);out.writeInt(total);}Files.move(t.toPath(),new File(dir,"cursor").toPath(),StandardCopyOption.REPLACE_EXISTING);}
+}

@@ -1,0 +1,8 @@
+package com.exito.chop;
+import org.json.*;import java.lang.reflect.*;
+final class SettingsIO {
+ static JSONObject write(Object s)throws Exception{JSONObject o=new JSONObject();for(Field f:s.getClass().getDeclaredFields()){if(Modifier.isStatic(f.getModifiers())||Modifier.isFinal(f.getModifiers()))continue;f.setAccessible(true);Object v=f.get(s);if(v instanceof Number||v instanceof Boolean)o.put(f.getName(),v);else if(v instanceof int[]||v instanceof float[])o.put(f.getName(),new JSONArray(v));}return o;}
+ static void read(JSONObject o,Object s)throws Exception{if(o==null)return;for(Field f:s.getClass().getDeclaredFields()){if(Modifier.isStatic(f.getModifiers())||Modifier.isFinal(f.getModifiers())||!o.has(f.getName()))continue;f.setAccessible(true);String k=f.getName();Class<?> t=f.getType();if(t==int.class)f.setInt(s,o.getInt(k));else if(t==float.class){double v=o.getDouble(k);if(Double.isFinite(v))f.setFloat(s,(float)v);}else if(t==boolean.class)f.setBoolean(s,o.getBoolean(k));else if(t==int[].class){JSONArray a=o.getJSONArray(k);int[] v=new int[a.length()];for(int i=0;i<v.length;i++)v[i]=a.getInt(i);f.set(s,v);}else if(t==float[].class){JSONArray a=o.getJSONArray(k);float[] v=new float[a.length()];for(int i=0;i<v.length;i++)v[i]=(float)a.getDouble(i);f.set(s,v);}}}
+ static JSONArray pads(PadParams[] a)throws Exception{JSONArray out=new JSONArray();for(PadParams p:a)out.put(write(p));return out;}
+ static PadParams[] pads(JSONArray a)throws Exception{PadParams[] p=PadParams.defaults();if(a!=null)for(int i=0;i<Math.min(64,a.length());i++)read(a.getJSONObject(i),p[i]);return p;}
+}

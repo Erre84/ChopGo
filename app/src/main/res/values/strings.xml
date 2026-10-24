@@ -1,0 +1,1 @@
+<resources><string name="auto_panel_description">Función opcional: detectar qué aplicación pasa al primer plano y saber cuándo se abre YouTube para mostrar el panel de ChopGO. No lee texto ni el contenido de pantalla, no controla gestos y no envía eventos fuera del teléfono. La entrada de audio se autoriza por separado mediante Android.</string></resources>
