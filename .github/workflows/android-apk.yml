@@ -1,0 +1,38 @@
+name: Compilar ChopGO 0.4.6 (APK)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  android-apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - name: Instalar Android SDK
+        run: sdkmanager 'platforms;android-35' 'build-tools;35.0.0'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+      - name: Crear firma de desarrollo temporal
+        run: |
+          mkdir -p signing
+          keytool -genkeypair -keystore signing/development.p12 -storetype PKCS12 \
+            -alias exito-development -keyalg RSA -keysize 2048 -validity 3650 \
+            -storepass android -keypass android -dname 'CN=ChopGO Development'
+      - name: Compilar APK
+        run: gradle --no-daemon :app:assembleRelease
+      - name: Verificar firma y alineación
+        run: |
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose app/build/outputs/apk/release/app-release.apk
+          "$ANDROID_HOME/build-tools/35.0.0/zipalign" -c -P 16 -v 4 app/build/outputs/apk/release/app-release.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ChopGO_0_4_6_APK
+          path: app/build/outputs/apk/release/app-release.apk
+          if-no-files-found: error
