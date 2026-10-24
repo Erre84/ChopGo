@@ -1,0 +1,11 @@
+ChopGO 0.4.6 - proyecto preparado para GitHub Actions
+
+Configuracion: settings.gradle y build.gradle en la raiz.
+Workflow: .github/workflows/android-apk.yml.
+
+Al subir la configuracion actualizada a la rama main, la compilacion se ejecuta automaticamente por push.
+Si finaliza correctamente, la APK se encuentra en Actions > ejecucion > Artifacts.
+
+AVISO: no se ha compilado/verificado una APK en este entorno (no hay SDK/Gradle).
+La firma del workflow es una firma de desarrollo temporal: no es apta para publicar actualizaciones estables.
+Este ZIP es el proyecto fuente, NO es una APK.

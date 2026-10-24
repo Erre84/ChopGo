@@ -1,0 +1,9 @@
+ChopGO 0.4.6 - Correccion de configuracion de compilacion
+
+1. Nuevo settings.gradle: registra modulo :app y repositorios.
+2. Nuevo build.gradle raiz: declara Android Gradle Plugin 8.7.3 (compatible con Gradle 8.9 y Java 17).
+3. Workflow GitHub Actions: activa --stacktrace para diagnostico.
+
+No se modifica el codigo de la aplicacion.
+La compilacion no ha podido ejecutarse localmente: este entorno no dispone del SDK/Gradle configurado.
+Importante: para compilar en GitHub, subir los archivos extraidos al repositorio (no subir el ZIP como archivo aislado).
