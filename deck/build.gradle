@@ -1,0 +1,33 @@
+plugins { id 'com.android.application' }
+
+android {
+    namespace 'com.erre84.chopdeck'
+    compileSdk 35
+    defaultConfig {
+        applicationId 'com.erre84.chopdeck'
+        minSdk 29
+        targetSdk 35
+        versionCode 1
+        versionName '1.0'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    signingConfigs {
+        development {
+            storeFile file('../signing/development.p12')
+            storePassword 'android'
+            keyAlias 'exito-development'
+            keyPassword 'android'
+            storeType 'PKCS12'
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.development
+            minifyEnabled false
+        }
+    }
+    androidResources { noCompress 'html' }
+}

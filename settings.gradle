@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = 'ChopGo'
-include ':app'
+include ':app', ':deck'

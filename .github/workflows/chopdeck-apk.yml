@@ -1,0 +1,50 @@
+name: Compilar ChopDeck SP (APK)
+on:
+  push:
+    branches: [chopdeck-sp]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v4
+      - name: Instalar Android SDK
+        run: sdkmanager 'platforms;android-35' 'build-tools;35.0.0'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+      - name: Firma
+        env:
+          KS: ${{ secrets.CHOPDECK_KEYSTORE }}
+        run: |
+          mkdir -p signing
+          if [ -n "$KS" ]; then echo "$KS" | base64 -d > signing/development.p12; else
+          keytool -genkeypair -keystore signing/development.p12 -storetype PKCS12 \
+            -alias exito-development -keyalg RSA -keysize 2048 -validity 10000 \
+            -storepass android -keypass android -dname 'CN=ChopDeck SP'; fi
+      - name: Compilar APK
+        run: gradle --no-daemon --stacktrace :deck:assembleRelease
+      - name: Verificar firma
+        run: |
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose deck/build/outputs/apk/release/deck-release.apk
+          cp deck/build/outputs/apk/release/deck-release.apk ChopDeck-SP.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ChopDeck-SP-APK
+          path: ChopDeck-SP.apk
+      - name: Publicar descarga para el móvil
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="chopdeck-${{ github.run_number }}"
+          gh release create "$TAG" ChopDeck-SP.apk --target "${{ github.sha }}" --prerelease \
+            --title "ChopDeck SP · build ${{ github.run_number }}" \
+            --notes "Descarga ChopDeck-SP.apk desde el móvil y ábrelo para instalar."
