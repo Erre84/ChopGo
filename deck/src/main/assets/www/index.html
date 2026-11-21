@@ -74,13 +74,14 @@ input[type=range]{accent-color:var(--cap);height:32px}
 .banks{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:5px}
 .banks .hw{min-width:0;padding:0;position:relative}
 .banks .hw.has::after{content:"";position:absolute;top:4px;right:4px;width:5px;height:5px;border-radius:50%;background:var(--led)}
-.padgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-top:10px;background:#2b2a27;padding:10px;border-radius:8px}
-.pad{aspect-ratio:1;border:0;border-radius:7px;background:radial-gradient(circle at 50% 35%,#a29e96,var(--pad) 70%);box-shadow:0 4px 0 #4f4c47,inset 0 -3px 6px rgba(0,0,0,.2);color:#2b2925;display:flex;flex-direction:column;justify-content:space-between;padding:6px;text-align:left;cursor:pointer;touch-action:none;user-select:none;-webkit-user-select:none;transition:background .06s}
+.padgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:10px;max-width:520px;margin-inline:auto;background:#2b2a27;padding:10px;border-radius:8px}
+.pad{aspect-ratio:5/4;border:0;border-radius:7px;background:radial-gradient(circle at 50% 35%,#a29e96,var(--pad) 70%);box-shadow:0 4px 0 #4f4c47,inset 0 -3px 6px rgba(0,0,0,.2);color:#2b2925;display:flex;flex-direction:column;justify-content:space-between;padding:6px;text-align:left;cursor:pointer;touch-action:none;user-select:none;-webkit-user-select:none;transition:background .06s}
 .pad .n{font:700 11px "Archivo Narrow";opacity:.75}
 .pad .l{font:18px/1 "VT323",monospace;word-break:break-all}
 .pad.empty{background:radial-gradient(circle at 50% 35%,#86827b,#76726b 70%);color:#4a4741}
 .pad.hit{background:radial-gradient(circle at 50% 35%,#fff8e4,var(--padhi) 70%);box-shadow:0 2px 0 #4f4c47}
 .pad.sel{outline:3px solid var(--cap);outline-offset:1px}
+#modes .hw{font-size:12px;padding:0 9px}
 .note{font-size:13px;color:#b0a998;margin:6px 0 0}
 .chasnote{font-size:13px;color:var(--mute);margin:4px 0 10px}
 .seqwrap{overflow-x:auto;background:#2b2a27;border-radius:8px;padding:8px}
@@ -98,7 +99,7 @@ input[type=range]{accent-color:var(--cap);height:32px}
 .busy .lcd{width:min(420px,100%);font-size:22px;padding:14px}
 .bar{height:10px;background:#7f8c3c;margin-top:10px;border-radius:2px;overflow:hidden}
 .bar i{display:block;height:100%;width:0;background:var(--lcdink)}
-.toast{position:fixed;left:50%;bottom:max(18px,env(safe-area-inset-bottom));transform:translateX(-50%);background:#1b0d0a;color:var(--led);font:20px "VT323";padding:8px 14px;border-radius:4px;z-index:60;opacity:0;transition:opacity .2s;pointer-events:none;max-width:92vw;text-align:center}
+.toast{position:fixed;left:50%;bottom:max(18px,env(safe-area-inset-bottom));transform:translateX(-50%);overflow-wrap:anywhere;width:max-content;background:#1b0d0a;color:var(--led);font:20px "VT323";padding:8px 14px;border-radius:4px;z-index:60;opacity:0;transition:opacity .2s;pointer-events:none;max-width:92vw;text-align:center}
 .toast.on{opacity:1}
 .drop{border:2px dashed #6f6a5f;border-radius:8px;padding:16px;text-align:center;color:#cfc7b5}
 .filebtn{position:relative;overflow:hidden}
@@ -115,7 +116,7 @@ details summary{cursor:pointer;font:700 12px "Archivo Narrow";color:#cfc7b5;padd
 </head>
 <body>
 <header>
-  <div class="brand"><b>CHOP<i>DECK</i> SP</b><small>SAMPLING PERCUSSION · 26.04 kHz · 12 BIT</small></div>
+  <div class="brand"><b>CHOP<i>DECK</i> SP</b><small>26.04 kHz · 12 BIT</small></div>
   <div class="disp">
     <label class="led"><input id="songBpm" type="number" min="50" max="200" step="0.5" value="90" inputmode="decimal" aria-label="BPM de tu canción"><span>BPM</span></label>
     <div class="lcd"><span>KEY</span><select id="songKey" aria-label="Tonalidad de tu canción"></select></div>
